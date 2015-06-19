@@ -16,19 +16,19 @@ object Instruction {
 }
 
 sealed trait Addressing
-object Addressing {
+object Addressing extends Typing {
   case class Implied() extends Addressing
   case class Accumulator() extends Addressing
-  case class Immediate(operand: Byte) extends Addressing
-  case class Absolute(operand: Short) extends Addressing
-  case class AbsoluteX(operand: Short) extends Addressing
-  case class AbsoluteY(operand: Short) extends Addressing
-  case class Zeropage(operand: Byte) extends Addressing
-  case class ZeropageX(operand: Byte) extends Addressing
-  case class ZeropageY(operand: Byte) extends Addressing
-  case class Relative(operand: Byte) extends Addressing
-  case class Indirect(operand: Byte) extends Addressing
-  case class IndirectX(operand: Byte) extends Addressing
-  case class IndirectY(operand: Byte) extends Addressing
+  case class Immediate(operand: b8) extends Addressing
+  case class Absolute(operand: b16) extends Addressing
+  case class AbsoluteX(operand: b16) extends Addressing
+  case class AbsoluteY(operand: b16) extends Addressing
+  case class ZeroPage(operand: b8) extends Addressing
+  case class ZeroPageX(operand: b8) extends Addressing
+  case class ZeroPageY(operand: b8) extends Addressing
+  case class Relative(operand: b8) extends Addressing
+  case class Indirect(operand: b8) extends Addressing
+  case class IndirectX(operand: b8) extends Addressing
+  case class IndirectY(operand: b8) extends Addressing
 }
 
