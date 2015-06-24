@@ -10,9 +10,11 @@ object Instruction {
   case class STY(addressing: Addressing) extends Instruction
   case object TAX extends Instruction
   case object TAY extends Instruction
+  case object TSX extends Instruction
   case object TXA extends Instruction
   case object TYA extends Instruction
   case object TXS extends Instruction
+  case class ADC(addressing: Addressing) extends Instruction
 }
 
 sealed trait Addressing

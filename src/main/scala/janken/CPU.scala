@@ -22,16 +22,7 @@ class CPU extends Typing {
     var Y: b8 = 0
     var S: b8 = 0
     var PC: b16 = 0
-    object P {
-      var N: Boolean = false
-      var V: Boolean = false
-      var R: Boolean = false
-      var B: Boolean = false
-      var D: Boolean = false
-      var I: Boolean = false
-      var Z: Boolean = false
-      var C: Boolean = false
-    }
+    var P: b8 = 0
   }
 
   def run(): Unit = {
@@ -43,7 +34,18 @@ class CPU extends Typing {
   def interpret(instruction: Instruction): Unit = {
     instruction match {
       case LDA(addressing) => lda(addressing)
+      case LDX(addressing) =>
+      case LDY(addressing) =>
       case STA(addressing) => sta(addressing)
+      case STX(addressing) =>
+      case STY(addressing) =>
+      case TAX => tax()
+      case TAY => tay()
+      case TSX =>
+      case TXA =>
+      case TXS =>
+      case TYA =>
+      case ADC(addressing) => adc(addressing)
 
       case _ => error
     }
@@ -51,27 +53,34 @@ class CPU extends Typing {
 
   def zeroPage(address: b8): Int = address.toInt
 
-  def lda(addressing: Addressing): Unit =
+  def lda(addressing: Addressing): Unit = {
+    R.P = 0
     R.A = addressing match {
       case Immediate(b8)  => b8
-      case ZeroPage(b8)   => memory(zeroPage(b8))
-      case ZeroPageX(b8)  => memory(zeroPage(b8 + R.X))
-      case Absolute(b16)  => memory(b16)
-      case AbsoluteX(b16) => memory(b16 + R.X)
-      case AbsoluteY(b16) => memory(b16 + R.Y)
-      case IndirectX(b8)  => memory(memory(b8 + R.X))
-      case IndirectY(b8)  => memory(memory(b8) + R.Y)
-
-      case _ => error
+      case _ => memory(address(addressing))
     }
+  }
 
   def sta(addressing: Addressing): Unit = {
+    R.P = 0
     memory(address(addressing)) = R.A
+  }
+
+  def tax(): Unit = {
+    R.P = 0
+    R.X = R.A
+  }
+
+  def tay(): Unit = {
+    R.P = 0
+    R.Y = R.A
+  }
+  def adc(addressing: Addressing): Unit = {
+
   }
 
   def address(addressing: Addressing): b16 = {
     addressing match {
-      case Immediate(b8)  => b8
       case ZeroPage(b8)   => zeroPage(b8)
       case ZeroPageX(b8)  => zeroPage(b8 + R.X)
       case Absolute(b16)  => b16
