@@ -34,8 +34,8 @@ class CPU extends Typing {
   def interpret(instruction: Instruction): Unit = {
     instruction match {
       case LDA(addressing) => lda(addressing)
-      case LDX(addressing) =>
-      case LDY(addressing) =>
+      case LDX(addressing) => ldx(addressing)
+      case LDY(addressing) => ldy(addressing)
       case STA(addressing) => sta(addressing)
       case STX(addressing) =>
       case STY(addressing) =>
@@ -55,8 +55,22 @@ class CPU extends Typing {
 
   def lda(addressing: Addressing): Unit = {
     R.P = 0
-    R.A = addressing match {
-      case Immediate(b8)  => b8
+    R.A = loadFrom(addressing)
+  }
+
+  def ldx(addressing: Addressing): Unit = {
+    R.P = 0
+    R.X = loadFrom(addressing)
+  }
+
+  def ldy(addressing: Addressing): Unit = {
+    R.P = 0
+    R.Y = loadFrom(addressing)
+  }
+
+  def loadFrom(addressing: Addressing): b8 = {
+    addressing match {
+      case Immediate(b8) => b8
       case _ => memory(address(addressing))
     }
   }
